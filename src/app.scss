@@ -1,3 +1,17 @@
 @import "styles/variables";
 @import "styles/imports";
 
+body {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #cfd2da;
+  background-color: #252830;
+}
+
+a {
+  color: #1ca8dd;
+  &:hover {
+    opacity: .6;
+  }
+}

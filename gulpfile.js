@@ -54,26 +54,23 @@ gulp.task('vendor', function() {
 
 
 gulp.task('templates', function() {
-  var YOUR_LOCALS = {};
 
-  gulp.src('./src/**/*.jade')
-    .pipe(jade({
-      locals: YOUR_LOCALS
-    }).on('error', errorHandler))
+  gulp.src('src/**/*.jade')
+    .pipe(jade().on('error', errorHandler))
     .pipe(gulp.dest('build'))
 });
 gulp.task('test', function (done) {
   new Server({
-    configFile: __dirname + '/test/karma.conf.js',
+    configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./src/**/*.scss', ['sass']);
-  gulp.watch('./src/**/*.js', ['scripts']);
-  gulp.watch('./src/**.*.jade', ['templates']);
-  gulp.watch('./src/**/*.spec.js', ['test']);
+  gulp.watch('src/**/*.scss', ['sass']);
+  gulp.watch('src/**/*.js', ['scripts']);
+  gulp.watch('src/**.*.jade', ['templates']);
+  gulp.watch('src/**/*.spec.js', ['test']);
 });
 
 gulp.task('default', ['clean', 'serve', 'sass', 'scripts', 'vendor', 'templates', 'watch']);

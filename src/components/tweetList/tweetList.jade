@@ -1,4 +1,18 @@
 div
+  form
+    .form-group
+      label(
+        for="mention"
+        )Handle
+      input.form-control(
+        type="email"
+        id="mention"
+        placeholder="the_real_marsh"
+        )
+
+    button.btn.btn-default(
+      type="submit"
+      )Submit
   ul
     li(ng-repeat="tweet in tweetListCtrl.tweets")
       | {{tweet.text}}

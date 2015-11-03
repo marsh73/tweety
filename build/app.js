@@ -20,7 +20,6 @@ angular.module('tweeety')
 function TweetListController (
   tweetListService
 ) {
-  this.something = "something";
   this.tweetListService = tweetListService;
   this.getTweets('the_real_marsh');
 }
