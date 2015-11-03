@@ -1,2 +1,4 @@
 div
-  h1 {{tweetListCtrl.something}}
+  ul
+    li(ng-repeat="tweet in tweetListCtrl.tweets")
+      | {{tweet.text}}
