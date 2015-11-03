@@ -13,6 +13,14 @@ var tw = new twitter({
   access_token_secret: "j5qjLEteXYt5E8d5WXtN4Z847aAbsRBa0ZlFstR4E5aLc"
 });
 
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'example.com');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  next();
+}
+app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -22,17 +30,5 @@ var server = app.listen(env_port, function () {
     console.log("Listening on port %s...", server.address().port);
 });
 
-
-// function handler (req, res) {
-//   fs.readFile(__dirname + "/build/index.html",
-//     function (err, data) {
-//       if (err) {
-//         res.writeHead(500);
-//         return res.end("Error loading index.html");
-//       }
-//       res.writeHead(200);
-//       res.end(data);
-//     });
-// }
 
 

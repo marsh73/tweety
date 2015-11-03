@@ -74,7 +74,7 @@ angular.module('tweeety').factory('tweetListService', [
 
       fetchTweets: function(handle) {
         var deferred = $q.defer();
-        $http.get('http://localhost:3000/tweets', {params: {screenName: handle}})
+        $http.get('/tweets', {params: {screenName: handle}})
           .then(function (tweets) {
             deferred.resolve(tweets.data);
           })
@@ -85,7 +85,7 @@ angular.module('tweeety').factory('tweetListService', [
       },
 
       fetchMentions: function(mention) {
-        $http.get('http://localhost:3000/tweets', {params: {mention: mention}})
+        $http.get('/tweets', {params: {mention: mention}})
           .then(function (one, two, three) {
             console.log('mentions', one, two, three);;
           })
