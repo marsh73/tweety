@@ -3,11 +3,18 @@ function TweetListController (
 ) {
   this.something = "something";
   this.tweetListService = tweetListService;
-  this.tweetListService.fetchMentions();
+  this.getTweets('the_real_marsh');
 }
 
-TweetListController.prototype.getTweets = function (mention) {
-  this.tweetListService.fetchMentions();
+TweetListController.prototype.getTweets = function (handle) {
+  this.tweetListService.fetchTweets(handle)
+    .then(function (tweets) {
+      this.tweets = tweets;
+    }.bind(this));
+};
+
+TweetListController.prototype.getMentions = function (mention) {
+  this.tweetListService.fetchMentions(mention);
 };
 
 TweetListController.$inject = [

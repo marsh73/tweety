@@ -7,6 +7,7 @@ var rimraf = require('gulp-rimraf');
 var browserify = require('browserify');
 var source     = require('vinyl-source-stream');
 var jade = require('gulp-jade');
+var nodemon = require('gulp-nodemon');
 
 
 var Server = require('karma').Server;
@@ -14,11 +15,15 @@ var Server = require('karma').Server;
 
 
 gulp.task('serve', function() {
-  connect.server({
-    root: 'build',
-    port: 8080,
-    livereload: true
-  });
+  // connect.server({
+  //   root: 'build',
+  //   port: 8080,
+  //   livereload: true
+  // });
+  nodemon({
+    script: 'app.js',
+    ext: 'js html'
+  })
 });
 
 gulp.task('sass', function () {
@@ -47,6 +52,7 @@ gulp.task('vendor', function() {
     .pipe(gulp.dest('build'));
 });
 
+
 gulp.task('templates', function() {
   var YOUR_LOCALS = {};
 
@@ -66,10 +72,12 @@ gulp.task('test', function (done) {
 gulp.task('watch', function() {
   gulp.watch('./src/**/*.scss', ['sass']);
   gulp.watch('./src/**/*.js', ['scripts']);
+  gulp.watch('./src/**.*.jade', ['templates']);
   gulp.watch('./src/**/*.spec.js', ['test']);
 });
 
 gulp.task('default', ['clean', 'serve', 'sass', 'scripts', 'vendor', 'templates', 'watch']);
+gulp.task('build', ['clean', 'sass', 'scripts', 'vendor', 'templates']);
 
 
 // Handle the error
