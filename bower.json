@@ -1,0 +1,25 @@
+{
+  "name": "tweeety",
+  "version": "0.0.1",
+  "homepage": "https://github.com/nermal32/tweeety",
+  "authors": [
+    "Justin Marshall <justinmarshall73@yahoo.com>"
+  ],
+  "description": "just some tweets",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "bootstrap-sass-official": "~3.2.0",
+    "angular-mocks": "~1.4.7",
+    "angular-ui-router": "~0.2.15"
+  }
+}
