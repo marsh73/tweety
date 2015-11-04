@@ -17,7 +17,7 @@ describe('Controller: tweetListController ', function () {
   describe('getTweets', function() {
 
     it('should fetch call tweetListService', function() {
-      spyOn(tweetListService, 'fetchTweets')andReturn($q.when({}));
+      spyOn(tweetListService, 'fetchTweets').and.returnValue($q.when({}));
       controller.getTweets('nodejs');
       expect(tweetListService.fetchTweets).toHaveBeenCalledWith('nodejs');
     });

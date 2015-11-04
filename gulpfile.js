@@ -2,24 +2,16 @@
 
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var connect = require('gulp-connect');
 var rimraf = require('gulp-rimraf');
 var browserify = require('browserify');
 var source     = require('vinyl-source-stream');
 var jade = require('gulp-jade');
 var nodemon = require('gulp-nodemon');
-
+var runSequence = require('run-sequence');
 
 var Server = require('karma').Server;
 
-
-
 gulp.task('serve', function() {
-  // connect.server({
-  //   root: 'build',
-  //   port: 8080,
-  //   livereload: true
-  // });
   nodemon({
     script: 'app.js',
     ext: 'js html'
@@ -32,11 +24,10 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('clean', function () {
-  return gulp.src('build', {read: false})
+gulp.task('clean', function (cb) {
+  return gulp.src('build', {read: false}, cb)
     .pipe(rimraf().on('error', errorHandler));
 });
-
 
 gulp.task('scripts', function() {
   return browserify({ entries: ['./src/main.js'] })
@@ -52,13 +43,12 @@ gulp.task('vendor', function() {
     .pipe(gulp.dest('build'));
 });
 
-
 gulp.task('templates', function() {
-
   gulp.src('src/**/*.jade')
     .pipe(jade().on('error', errorHandler))
     .pipe(gulp.dest('build'))
 });
+
 gulp.task('test', function (done) {
   new Server({
     configFile: __dirname + '/karma.conf.js',
@@ -69,13 +59,22 @@ gulp.task('test', function (done) {
 gulp.task('watch', function() {
   gulp.watch('src/**/*.scss', ['sass']);
   gulp.watch('src/**/*.js', ['scripts']);
-  gulp.watch('src/**.*.jade', ['templates']);
+  gulp.watch('src/**/*.jade', ['templates']);
   gulp.watch('src/**/*.spec.js', ['test']);
 });
 
-gulp.task('default', ['clean', 'serve', 'sass', 'scripts', 'vendor', 'templates', 'watch']);
-gulp.task('build', ['clean', 'sass', 'scripts', 'vendor', 'templates']);
-
+gulp.task('default', function () {
+  runSequence(
+    'clean',
+    ['serve', 'sass', 'scripts', 'vendor', 'templates', 'watch']
+  );
+});
+gulp.task('build', function () {
+  runSequence(
+    'clean',
+    ['sass', 'scripts', 'vendor', 'templates']
+  );
+});
 
 // Handle the error
 function errorHandler (error) {
