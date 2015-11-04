@@ -1,23 +1,44 @@
+'use strict';
+
 function TweetListController (
-  tweetListService
+  tweetListService,
+  tweetUtils,
+  $rootScope
 ) {
-  this.tweetListService = tweetListService;
-  this.getTweets('the_real_marsh');
+  this._tweetListService = tweetListService;
+  this._tweetUtils = tweetUtils;
+  this.$rootScope = $rootScope;
+  this.getTweets('StackSocial');
 }
 
 TweetListController.prototype.getTweets = function (handle) {
-  this.tweetListService.fetchTweets(handle)
+  this.updateProfile(handle);
+  this.updateBanner(handle);
+  this._tweetListService.fetchTweets(handle)
     .then(function (tweets) {
-      this.tweets = tweets;
+      this.tweets = this._tweetUtils.transformTweets(tweets);
     }.bind(this));
 };
 
-TweetListController.prototype.getMentions = function (mention) {
-  this.tweetListService.fetchMentions(mention);
+TweetListController.prototype.updateProfile = function (handle) {
+  this._tweetListService.fetchProfile(handle)
+    .then(function (profile) {
+      this.$rootScope.profile = profile;
+    }.bind(this));
+};
+
+TweetListController.prototype.updateBanner = function (handle) {
+  this._tweetListService.fetchBanner(handle)
+    .then(function (banner) {
+      var bannerL = banner ? banner.sizes['1500x500'].url : '';
+      this.$rootScope.banner = bannerL;
+    }.bind(this));
 };
 
 TweetListController.$inject = [
-  'tweetListService'
+  'tweetListService',
+  'tweetUtils',
+  '$rootScope'
 ];
 
 angular.module('tweeety').controller('tweetListController', TweetListController);

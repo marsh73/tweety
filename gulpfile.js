@@ -8,6 +8,8 @@ var source     = require('vinyl-source-stream');
 var jade = require('gulp-jade');
 var nodemon = require('gulp-nodemon');
 var runSequence = require('run-sequence');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
 
 var Server = require('karma').Server;
 
@@ -24,9 +26,16 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('clean', function (cb) {
-  return gulp.src('build', {read: false}, cb)
+gulp.task('clean', function () {
+  return gulp.src('build', {read: false})
     .pipe(rimraf().on('error', errorHandler));
+});
+
+gulp.task('jshint', function () {
+  return gulp.src('src/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'))
 });
 
 gulp.task('scripts', function() {
@@ -66,7 +75,7 @@ gulp.task('watch', function() {
 gulp.task('default', function () {
   runSequence(
     'clean',
-    ['serve', 'sass', 'scripts', 'vendor', 'templates', 'watch']
+    ['serve', 'sass', 'jshint', 'scripts', 'vendor', 'templates', 'watch']
   );
 });
 gulp.task('build', function () {

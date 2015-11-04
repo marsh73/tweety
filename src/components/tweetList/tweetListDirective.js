@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('tweeety').directive('tweetList', [function () {
   return {
     restrict: 'A',

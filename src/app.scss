@@ -5,8 +5,7 @@ body {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  color: #cfd2da;
-  background-color: #252830;
+  padding: 150px 5%;
 }
 
 a {
@@ -14,4 +13,43 @@ a {
   &:hover {
     opacity: .6;
   }
+}
+
+.btn-tweets {
+  background-color: #279ddd;
+  color: #ffffff;
+}
+
+.tweetHandleInput {
+  margin: 20px 0;
+  & > * {
+    margin-right: 15px;
+  }
+};
+
+.tweetItem {
+  padding: 5px 0;
+}
+
+.tweetyBanner {
+  height: 300px;
+  background-size: cover;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.twitterProfileImg{
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  height: 150px;
+}
+.wrapper {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  padding-right: 200px;
+  position: relative;
 }

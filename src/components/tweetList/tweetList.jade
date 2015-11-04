@@ -1,18 +1,24 @@
-div
-  form
-    .form-group
-      label(
-        for="mention"
-        ) Handle
-      input.form-control(
-        type="email"
-        id="mention"
-        placeholder="the_real_marsh"
-        )
+.container-fluid
+  img.twitterProfileImg(ng-src="{{profile.profile_image_url}}")
+  .row-fluid
+    .span12
+      form
+        .form-inline.tweetHandleInput
+          label(
+            for="mention"
+            ) Twitter Handle
+          input.input-small(
+            type="text"
+            ng-model="handle"
+            placeholder="StackSocial"
+            )
 
-    button.btn.btn-default(
-      type="submit"
-      ) Submit
-  ul
-    li(ng-repeat="tweet in tweetListCtrl.tweets")
-      | {{tweet.text}}
+          button.btn.btn-tweets(
+            ng-click="tweetListCtrl.getTweets(handle)"
+            ) Submit
+  .row-fluid
+    .span12
+      ul.list-unstyled
+        li.tweetItem(ng-repeat="tweet in tweetListCtrl.tweets")
+          span(ng-bind-html="tweet.text")
+  pre {{banner | json}}

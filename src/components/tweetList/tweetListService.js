@@ -13,26 +13,41 @@ angular.module('tweeety').factory('tweetListService', [
     return {
 
       fetchTweets: function(handle) {
+        this.fetchProfile(handle);
         var deferred = $q.defer();
         $http.get('/tweets', {params: {screenName: handle}})
           .then(function (tweets) {
             deferred.resolve(tweets.data);
           })
           .catch(function (error) {
-            deffered.reject(error);
+            deferred.reject(error);
           });
         return deferred.promise;
       },
 
-      fetchMentions: function(mention) {
-        $http.get('/tweets', {params: {mention: mention}})
-          .then(function (one, two, three) {
-            console.log('mentions', one, two, three);;
+      fetchProfile: function (handle) {
+        var deferred = $q.defer();
+        $http.get('/profile', {params: {screenName: handle}})
+          .then(function (profile) {
+            deferred.resolve(profile.data);
           })
           .catch(function (error) {
-            console.log('error', error);
+            deferred.reject(error);
           });
+        return deferred.promise;
       },
+
+      fetchBanner: function (handle) {
+        var deferred = $q.defer();
+        $http.get('/banner', {params: {screenName: handle}})
+          .then(function (banner) {
+            deferred.resolve(banner.data);
+          })
+          .catch(function (error) {
+            deferred.reject(error);
+          });
+        return deferred.promise;
+      }
 
     };
   }

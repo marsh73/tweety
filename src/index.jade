@@ -11,8 +11,14 @@ html
       href="app.css"
       )
 
-  body(ng-app='tweeety')
-    .container-fluid(ui-view='')
+  body(
+    ng-app='tweeety'
+    )
+    .banner.tweetyBanner(
+      style="background-image: url({{banner ? banner : ''}})"
+      )
 
-    script(src="vendor.js")
-    script(src="app.js")
+    .wrapper(ui-view='')
+
+      script(src="vendor.js")
+      script(src="app.js")

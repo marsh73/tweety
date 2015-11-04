@@ -17,31 +17,54 @@ angular.module('tweeety')
   ]);
 
 },{}],2:[function(require,module,exports){
+'use strict';
+
 function TweetListController (
-  tweetListService
+  tweetListService,
+  tweetUtils,
+  $rootScope
 ) {
-  this.tweetListService = tweetListService;
-  this.getTweets('the_real_marsh');
+  this._tweetListService = tweetListService;
+  this._tweetUtils = tweetUtils;
+  this.$rootScope = $rootScope;
+  this.getTweets('StackSocial');
 }
 
 TweetListController.prototype.getTweets = function (handle) {
-  this.tweetListService.fetchTweets(handle)
+  this.updateProfile(handle);
+  this.updateBanner(handle);
+  this._tweetListService.fetchTweets(handle)
     .then(function (tweets) {
-      this.tweets = tweets;
+      this.tweets = this._tweetUtils.transformTweets(tweets);
     }.bind(this));
 };
 
-TweetListController.prototype.getMentions = function (mention) {
-  this.tweetListService.fetchMentions(mention);
+TweetListController.prototype.updateProfile = function (handle) {
+  this._tweetListService.fetchProfile(handle)
+    .then(function (profile) {
+      this.$rootScope.profile = profile;
+    }.bind(this));
+};
+
+TweetListController.prototype.updateBanner = function (handle) {
+  this._tweetListService.fetchBanner(handle)
+    .then(function (banner) {
+      var bannerL = banner ? banner.sizes['1500x500'].url : '';
+      this.$rootScope.banner = bannerL;
+    }.bind(this));
 };
 
 TweetListController.$inject = [
-  'tweetListService'
+  'tweetListService',
+  'tweetUtils',
+  '$rootScope'
 ];
 
 angular.module('tweeety').controller('tweetListController', TweetListController);
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
 angular.module('tweeety').directive('tweetList', [function () {
   return {
     restrict: 'A',
@@ -72,26 +95,41 @@ angular.module('tweeety').factory('tweetListService', [
     return {
 
       fetchTweets: function(handle) {
+        this.fetchProfile(handle);
         var deferred = $q.defer();
         $http.get('/tweets', {params: {screenName: handle}})
           .then(function (tweets) {
             deferred.resolve(tweets.data);
           })
           .catch(function (error) {
-            deffered.reject(error);
+            deferred.reject(error);
           });
         return deferred.promise;
       },
 
-      fetchMentions: function(mention) {
-        $http.get('/tweets', {params: {mention: mention}})
-          .then(function (one, two, three) {
-            console.log('mentions', one, two, three);;
+      fetchProfile: function (handle) {
+        var deferred = $q.defer();
+        $http.get('/profile', {params: {screenName: handle}})
+          .then(function (profile) {
+            deferred.resolve(profile.data);
           })
           .catch(function (error) {
-            console.log('error', error);
+            deferred.reject(error);
           });
+        return deferred.promise;
       },
+
+      fetchBanner: function (handle) {
+        var deferred = $q.defer();
+        $http.get('/banner', {params: {screenName: handle}})
+          .then(function (banner) {
+            deferred.resolve(banner.data);
+          })
+          .catch(function (error) {
+            deferred.reject(error);
+          });
+        return deferred.promise;
+      }
 
     };
   }
@@ -100,14 +138,54 @@ angular.module('tweeety').factory('tweetListService', [
 },{}],5:[function(require,module,exports){
 'use strict';
 
+// # panel array web utils
+angular.module('tweeety').factory('tweetUtils', [
+  function(
+  ) {
+    function transformTweet(tweet) {
+      return {
+        text: linkMentions(tweet)
+      };
+    }
+
+    function linkMentions (tweet) {
+      var tweetText = tweet.text;
+      var mentions = tweetText.match(/@\w+/g);
+      if(mentions){
+        mentions.forEach(function (mention){
+          var linked = '<a href="https://twitter.com/' + mention.substr(1) + '" target="_blank">' + mention + '</a>';
+          tweetText = tweetText.replace(mention, linked);
+        });
+      }
+      return tweetText;
+    }
+
+    return {
+
+      transformTweets: function (tweets) {
+        return tweets.map(function(tweet){
+          return transformTweet(tweet);
+        }.bind(this));
+      }
+
+    };
+
+  }
+]);
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
 angular.module('tweeety', [
   'ui.router',
+  'ngSanitize'
 ]);
 
 require('./common/states.js');
 require('./components/tweetList/tweetListDirective.js');
 require('./components/tweetList/tweetListController.js');
 require('./components/tweetList/tweetListService.js');
+require('./components/tweetList/tweetUtils.js');
 
 
-},{"./common/states.js":1,"./components/tweetList/tweetListController.js":2,"./components/tweetList/tweetListDirective.js":3,"./components/tweetList/tweetListService.js":4}]},{},[5]);
+},{"./common/states.js":1,"./components/tweetList/tweetListController.js":2,"./components/tweetList/tweetListDirective.js":3,"./components/tweetList/tweetListService.js":4,"./components/tweetList/tweetUtils.js":5}]},{},[6]);
