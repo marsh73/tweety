@@ -31,7 +31,15 @@ var appRouter = function(app, tw) {
     if (!error) {
       return res.status(200).send(banner);
     } else {
-      console.log(error);
+      // IF NO BANNER IMAGE AVAILABLE SEND PLACEKITTEN
+      var ph = {
+        sizes: {
+          '1500x500': {
+            url: 'http://placekitten.com/g/1500/500'
+          }
+        }
+      };
+      return res.status(200).send(ph);
     }
   });
  });

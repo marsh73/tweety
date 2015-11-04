@@ -14,5 +14,5 @@ SETUP
 [3]: visit http://localhost:3000
 [4]: heroku deploys when master is merged
 [5]: heroku url http://marsh-tweets.herokuapp.com/
-[6]: test gulp test
+[6]: tests will run with gulp default command or directly: 'gulp test'
 [7]: to just run node app - in commandline: 'node app'

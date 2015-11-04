@@ -51,7 +51,10 @@ TweetListController.prototype.updateBanner = function (handle) {
     .then(function (banner) {
       var bannerL = banner ? banner.sizes['1500x500'].url : '';
       this.$rootScope.banner = bannerL;
-    }.bind(this));
+    }.bind(this), function (error) {
+      console.log(error);
+    });
+
 };
 
 TweetListController.$inject = [

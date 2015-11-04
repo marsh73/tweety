@@ -75,6 +75,7 @@ gulp.task('watch', function() {
 gulp.task('default', function () {
   runSequence(
     'clean',
+    'test',
     ['serve', 'sass', 'jshint', 'scripts', 'vendor', 'templates', 'watch']
   );
 });

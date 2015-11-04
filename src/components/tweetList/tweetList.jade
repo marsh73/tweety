@@ -20,5 +20,5 @@
     .span12
       ul.list-unstyled
         li.tweetItem(ng-repeat="tweet in tweetListCtrl.tweets")
+          span.glyphicon.glyphicon-pencil.tweetPencil
           span(ng-bind-html="tweet.text")
-  pre {{banner | json}}

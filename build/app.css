@@ -4811,3 +4811,9 @@ a {
   border-radius: 5px;
   padding-right: 200px;
   position: relative; }
+
+.tweetPencil:before {
+  color: #1ca8dd;
+  margin-right: 10px;
+  font-size: 18px;
+  transform: rotate(7deg); }
