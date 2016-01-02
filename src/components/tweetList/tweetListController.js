@@ -8,7 +8,7 @@ function TweetListController (
   this._tweetListService = tweetListService;
   this._tweetUtils = tweetUtils;
   this.$rootScope = $rootScope;
-  this.getTweets('StackSocial');
+  this.getTweets('LAKings');
 }
 
 TweetListController.prototype.getTweets = function (handle) {
