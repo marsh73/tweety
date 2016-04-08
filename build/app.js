@@ -27,7 +27,7 @@ function TweetListController (
   this._tweetListService = tweetListService;
   this._tweetUtils = tweetUtils;
   this.$rootScope = $rootScope;
-  this.getTweets('StackSocial');
+  this.getTweets('LAKings');
 }
 
 TweetListController.prototype.getTweets = function (handle) {
@@ -145,11 +145,6 @@ angular.module('tweeety').factory('tweetListService', [
 angular.module('tweeety').factory('tweetUtils', [
   function(
   ) {
-    function transformTweet(tweet) {
-      return {
-        text: linkMentions(tweet)
-      };
-    }
 
     function linkMentions (tweet) {
       var tweetText = tweet.text;
@@ -161,6 +156,12 @@ angular.module('tweeety').factory('tweetUtils', [
         });
       }
       return tweetText;
+    }
+
+    function transformTweet(tweet) {
+      return {
+        text: linkMentions(tweet)
+      };
     }
 
     return {

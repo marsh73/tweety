@@ -34,7 +34,7 @@
   "plusplus": false,
   "undef": true,
   "unused": "vars",
-  "strict": true,
+  "strict": false,
   "white": false,
   "trailing": true,
   "maxparams": false,

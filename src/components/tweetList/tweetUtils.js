@@ -4,11 +4,6 @@
 angular.module('tweeety').factory('tweetUtils', [
   function(
   ) {
-    function transformTweet(tweet) {
-      return {
-        text: linkMentions(tweet)
-      };
-    }
 
     function linkMentions (tweet) {
       var tweetText = tweet.text;
@@ -20,6 +15,12 @@ angular.module('tweeety').factory('tweetUtils', [
         });
       }
       return tweetText;
+    }
+
+    function transformTweet(tweet) {
+      return {
+        text: linkMentions(tweet)
+      };
     }
 
     return {
